@@ -12,6 +12,24 @@ const loadtasks = () => {
   }
 };
 
+const listTasks = () => {
+  const taskList = loadtasks();
+  taskList.forEach((task, index) => console.log(`${index + 1} - ${task.task}`));
+};
+
+const removeTask = (index) => {
+  const taskList = loadtasks();
+
+  if (index < 1 || index > taskList.length) {
+    console.log("Invalid index");
+    return;
+  }
+
+  const removed = taskList.splice(index - 1, 1); // Adjust for 1-based index
+  saveTasks(taskList);
+  console.log(`Removed task: ${removed[0].task}`);
+};
+
 const saveTasks = (tasks) => {
   fs.writeFileSync(filePath, JSON.stringify(tasks));
 };
@@ -28,7 +46,7 @@ if (command === "add") {
   addTask(argument);
 } else if (command === "list") {
   listTasks();
-} else if (coomand === "remove") {
+} else if (command === "remove") {
   removeTask(parseInt(argument));
 } else {
   console.log("Invalid command");
